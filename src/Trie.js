@@ -24,38 +24,40 @@ var TrieProto = {
   insert: function(w, obj) {
     var point = this.tree;
 
-    w.split('').forEach(function(e, i) {
-      if (!point[e]) {
-        point[e] = {};
-      }
-      point = point[e];
-      if (w.length - 1 === i) {
-        point[objSym] = obj;
-      }
-    });
-  },
+        w.split('').forEach(function(e,i){
+            if(!point[e]) {
+              point[e] = {};
+            }
+            point = point[e];
+            if(w.length - 1 === i) {
+                if(!point[objSym]) {
+                    point[objSym] = [];
+                }
+                point[objSym].push(obj);
+            }
+        });
+    },
 
   autoComplete: function(wp) {
     var point = goto(this.tree, wp);
     var stack = [];
 
-    // We can check if we've completed a word in constant time
-    if (point[objSym]) {
-      stack.push(point[objSym]);
-    }
+        if(point[objSym]) {
+            stack.push(point[objSym]);
+        }
 
-    function reduceObjToArr(o, trace) {
-      for (var k in o) {
-        if (o[k][objSym]) {
-          stack.push(o[k][objSym]);
-          // stack.push(trace + k);
+        function reduceObjToArr(o, trace) {
+            for(var k in o) {
+                if(o[k][objSym]) {
+                    stack.push(o[k][objSym]);
+                }
+                reduceObjToArr(o[k], trace + k);
+            }
         }
         reduceObjToArr(o[k], trace + k);
       }
     }
-
     reduceObjToArr(point, '');
-
     return stack;
   }
 };
