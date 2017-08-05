@@ -36,7 +36,6 @@ var sourceJSON = [
 function setup(sourceJSON) {
   var stringJSON = JSON.stringify(sourceJSON);
   var jsonArr = flatten(JSON.parse(stringJSON));
-  console.log(jsonArr);
   var trie = createTrie();
   jsonArr.forEach((obj) => {
     Object.keys(obj).forEach((key) => {
@@ -89,11 +88,9 @@ function filterUserInput(e) {
   var resultArr = trie.autoComplete(currVal);
   resultArr.forEach((res) => {
     var resultStringified = (typeof res !== 'string' && typeof res !== 'number') ? JSON.stringify(res) : res;
-    var li = document.createElement('li');
     var p = document.createElement('p');
     p.innerHTML = resultStringified;
-    li.appendChild(p);
-    layout.appendChild(li);
+    layout.appendChild(p);
   });
 }
 
