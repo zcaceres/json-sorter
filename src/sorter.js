@@ -1,17 +1,6 @@
 'use strict';
 
-var sourceJSON = [
-  {
-    name: 'Rolling Stones',
-    members: ['Mick Jagger', 'Keith Moon'],
-    yearsActive: 1979
-  },
-  {
-    name: 'Cream',
-    members: ['Eric Clapton', 'Ginger Baker'],
-    yearsActive: 1979
-  },
-];
+// var sourceJSON = YOUR JSON HERE, check out test-source.json for example
 
 function setup(sourceJSON) {
   var stringJSON = JSON.stringify(sourceJSON);
@@ -72,9 +61,20 @@ function filterUserInput(e) {
     return keysContainInput(obj, currVal) || valsContainInput(obj, currVal)
   });
   resultArr.forEach((res) => {
-    var resultStringified = (typeof res !== 'string' && typeof res !== 'number') ? JSON.stringify(res) : res;
-    var p = document.createElement('p');
-    layout.appendChild(p);
+    /*
+      ADD ADDITIONAL HTML ELEMENTS HERE
+      SET THEIR INNER HTML TO THE VALUES FROM YOUR JSON.
+
+      example:
+      var p = document.createElement('p');
+      p.innerHTML = result.body;
+
+      var h1 = document.createElement('h1');
+      h1.innerHTML = result.title;
+
+      layout.appendChild(h1);
+      layout.appendChild(p);
+    */
   });
 }
 

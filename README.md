@@ -1,1 +1,4 @@
-# json-sorter
+# JSON-Sorter
+> Authors: Zach Caceres and Michael Norohona
+
+Takes in arbitrarily nested JSON. On each keypress, quickly sorts and displays the json that contains the value of the input.
