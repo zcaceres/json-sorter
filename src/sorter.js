@@ -2,6 +2,36 @@
 
 var sourceJSON = [
   {
+    title: 'SEO Optimization',
+    price: 100,
+    time: 2,
+    tags: ['seo', 'wordpress'],
+    people: {
+      client: 'Tyronda James',
+      expert: 'Joe'
+    }
+  },
+  {
+    title: 'Flagged by Google',
+    price: 10,
+    time: 3,
+    tags: ['seo', 'google', 'wordpress'],
+    people: {
+      client: 'Tyronda James',
+      expert: 'Joe'
+    }
+  },
+  {
+    title: 'Product List',
+    price: 50,
+    time: 3,
+    tags: ['wordpress', 'css', 'programming'],
+    people: {
+      client: 'Lisa Says Gah',
+      expert: 'Saba'
+    }
+  },
+  {
     title: 'Mailchimp configuration',
     price: 120,
     time: 3,
