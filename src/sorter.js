@@ -126,9 +126,9 @@ function setup(sourceJSON) {
 
 function filterUserInput(e) {
   var currVal = e.target.value.toLowerCase();
-  while (layout.removeChild) {
-    layout.reoveChild(layout.firstChild);
-  }
+  // while (layout.removeChild) {
+  //   layout.removeChild(layout.firstChild);
+  // }
   // console.log('currval', currVal, 'event', event);
   var resultArr = trie.autoComplete(currVal);
   resultArr.forEach(res => {
