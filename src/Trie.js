@@ -18,8 +18,7 @@ function goto(o, wp) {
     : {};
 }
 
-var objSym = Symbol.for ('obj')
-;
+var objSym = Symbol.for('obj');
 
 var TrieProto = {
   insert: function(w, obj) {
@@ -48,7 +47,7 @@ var TrieProto = {
     }
 
     function reduceObjToArr(o, trace) {
-      for (var k in o) {
+      for(var k in o) {
         if (o[k][objSym]) {
           stack.push(o[k][objSym]);
         }

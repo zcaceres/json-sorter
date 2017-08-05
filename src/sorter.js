@@ -2,141 +2,99 @@
 
 var sourceJSON = [
   {
-    id: '0001',
-    type: 'donut',
-    name: 'Cake',
-    ppu: 0.55,
-    batters: {
-      batter: [
-        {
-          id: '1001',
-          type: 'Regular'
-        }, {
-          id: '1002',
-          type: 'Chocolate'
-        }, {
-          id: '1003',
-          type: 'Blueberry'
-        }, {
-          id: '1004',
-          type: 'Devil\'s Food'
-        }
-      ]
-    },
-    topping: [
-      {
-        id: '5001',
-        type: 'None'
-      }, {
-        id: '5002',
-        type: 'Glazed'
-      }, {
-        id: '5005',
-        type: 'Sugar'
-      }, {
-        id: '5007',
-        type: 'Powdered Sugar'
-      }, {
-        id: '5006',
-        type: 'Chocolate with Sprinkles'
-      }, {
-        id: '5003',
-        type: 'Chocolate'
-      }, {
-        id: '5004',
-        type: 'Maple'
-      }
-    ]
-  }, {
-    id: '0002',
-    type: 'donut',
-    name: 'Raised',
-    ppu: 0.55,
-    batters: {
-      batter: [
-        {
-          id: '1001',
-          type: 'Regular'
-        }
-      ]
-    },
-    topping: [
-      {
-        id: '5001',
-        type: 'None'
-      }, {
-        id: '5002',
-        type: 'Glazed'
-      }, {
-        id: '5005',
-        type: 'Sugar'
-      }, {
-        id: '5003',
-        type: 'Chocolate'
-      }, {
-        id: '5004',
-        type: 'Maple'
-      }
-    ]
-  }, {
-    id: '0003',
-    type: 'donut',
-    name: 'Old Fashioned',
-    ppu: 0.55,
-    batters: {
-      batter: [
-        {
-          id: '1001',
-          type: 'Regular'
-        }, {
-          id: '1002',
-          type: 'Chocolate'
-        }
-      ]
-    },
-    topping: [
-      {
-        id: '5001',
-        type: 'None'
-      }, {
-        id: '5002',
-        type: 'Glazed'
-      }, {
-        id: '5003',
-        type: 'Chocolate'
-      }, {
-        id: '5004',
-        type: 'Maple'
-      }
-    ]
-  }
+    title: 'Mailchimp configuration',
+    price: 120,
+    time: 3,
+    tags: ['mailchimp', 'setup', 'easy']
+  },
+  {
+    title: 'Error in mailing list',
+    price: 20,
+    time: 1,
+    tags: ['mailchimp', 'bugs']
+  },
+  {
+    title: 'Newsletter Setup Mailchimp',
+    price: 100,
+    time: 5,
+    tags: ['mailchimp', 'squarespace']
+  },
+  {
+    title: 'Broken Signup form',
+    price: 120,
+    time: 3,
+    tags: ['mailchimp', 'setup', 'easy']
+  },
+  {
+    title: 'Button CSS',
+    price: 40,
+    time: 2,
+    tags: ['css', 'design', 'wordpress']
+  },
 ];
 
 function setup(sourceJSON) {
   var stringJSON = JSON.stringify(sourceJSON);
-  var jsonArr = JSON.parse(stringJSON);
+  var jsonArr = flatten(JSON.parse(stringJSON));
+  console.log(jsonArr);
   var trie = createTrie();
   jsonArr.forEach((obj) => {
     Object.keys(obj).forEach((key) => {
-      trie.insert(key.toLowerCase(), obj[key]);
+      var val = obj[key].toString().toLowerCase();
+      // console.log(obj[key], val);
+      trie.insert(val, obj);
     });
   });
   return trie;
 }
 
+function flatten(json) {
+  var needToFlatten = true;
+  while (needToFlatten) {
+    json = flattenArr(json);
+    needToFlatten = containsObject(json);
+  }
+  return json;
+}
+
+function containsObject(arr) {
+  return arr.some(el => Object.keys(el).some(k => typeof el[k] === 'object'));
+}
+
+function flattenArr(json) {
+  var newArray = json.map(item => {
+    var newObj = {};
+    Object.keys(item).forEach(key => {
+      if (typeof item[key] === 'object') {
+        Object.keys(item[key]).forEach(innerKey => {
+          newObj[`${key}_${innerKey}`] = item[key][innerKey];
+        });
+      } else {
+        newObj[key] = item[key];
+      }
+    });
+    return newObj;
+  });
+  return newArray;
+}
+
 function filterUserInput(e) {
   var currVal = e.target.value.toLowerCase();
-  // while (layout.removeChild) {
-  //   layout.removeChild(layout.firstChild);
-  // }
-  // console.log('currval', currVal, 'event', event);
+  while (layout.firstChild) {
+    layout.removeChild(layout.firstChild);
+  }
+  if (!e.target.value) {
+    return;
+  }
   var resultArr = trie.autoComplete(currVal);
-  resultArr.forEach(res => {
+  resultArr.forEach((res) => {
+    var resultStringified = (typeof res !== 'string' && typeof res !== 'number') ? JSON.stringify(res) : res;
     var li = document.createElement('li');
-    li.innerHTML = res;
+    var p = document.createElement('p');
+    p.innerHTML = resultStringified;
+    li.appendChild(p);
     layout.appendChild(li);
-  })
-  console.log(resultArr);
+  });
 }
 
 function registerEventListeners() {
