@@ -28,7 +28,10 @@ var TrieProto = {
             }
             point = point[e];
             if(w.length - 1 === i) {
-                point[objSym] = obj;
+                if(!point[objSym]) {
+                    point[objSym] = [];
+                }
+                point[objSym].push(obj);
             }
         });
     },
@@ -37,7 +40,6 @@ var TrieProto = {
         var point = goto(this.tree, wp);
         var stack = [];
 
-        // We can check if we've completed a word in constant time
         if(point[objSym]) {
             stack.push(point[objSym]);
         }
@@ -46,7 +48,6 @@ var TrieProto = {
             for(var k in o) {
                 if(o[k][objSym]) {
                     stack.push(o[k][objSym]);
-                    // stack.push(trace + k);
                 }
                 reduceObjToArr(o[k], trace + k);
             }
@@ -68,4 +69,10 @@ var TrieDesc = {
 function createTrie(){
     return Object.create(TrieProto,TrieDesc);
 }
+
+var trie = createTrie();
+trie.insert("hit",{'b':'b'});
+trie.insert("hit",{'c':'c'});
+trie.insert("hitthere",{'a':'a'});
+trie.autoComplete("hit");
 
