@@ -1,7 +1,8 @@
 {
   "name": "json-sorter",
+  "author": "Zach Caceres & Michael Norohona",
   "version": "1.0.0",
-  "description": "",
+  "description": "quickly query and sort json",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +12,7 @@
     "url": "git+https://github.com/zcaceres/json-sorter.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zcaceres/json-sorter/issues"
   },
