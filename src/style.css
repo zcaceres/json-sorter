@@ -1,0 +1,22 @@
+h1 {
+  text-align: center;
+  font-size: 300%;
+}
+
+body {
+  text-align: center;
+  padding-top: 20%;
+  min-width: 100%;
+}
+
+input {
+  padding: 5px;
+  width: 100%;
+}
+
+#pricer {
+  text-align: left;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
