@@ -5,67 +5,68 @@
 //  - Completions are not excluded when they are first finished
 //  - The output array is an array of objects rather than of strings/keys
 
-function goto(o,wp){
-    if(!wp.length) {
-        return o;
-    }
+function goto(o, wp) {
+  if (!wp.length) {
+    return o;
+  }
 
-    var firstLetter = wp[0];
-    var point = o[firstLetter];
+  var firstLetter = wp[0];
+  var point = o[firstLetter];
 
-    return point ? goto(point,wp.slice(1)) : {};
+  return point
+    ? goto(point, wp.slice(1))
+    : {};
 }
 
 var objSym = Symbol.for('obj');
 
 var TrieProto = {
-    insert: function(w,obj){
-        var point = this.tree;
+  insert: function(w, obj) {
+    var point = this.tree;
 
-        w.split('').forEach(function(e,i){
-            if(!point[e]) {
-              point[e] = {};
-            }
-            point = point[e];
-            if(w.length - 1 === i) {
-                point[objSym] = obj;
-            }
-        });
-    },
+    w.split('').forEach(function(e, i) {
+      if (!point[e]) {
+        point[e] = {};
+      }
+      point = point[e];
+      if (w.length - 1 === i) {
+        point[objSym] = obj;
+      }
+    });
+  },
 
-    autoComplete: function(wp){
-        var point = goto(this.tree, wp);
-        var stack = [];
+  autoComplete: function(wp) {
+    var point = goto(this.tree, wp);
+    var stack = [];
 
-        // We can check if we've completed a word in constant time
-        if(point[objSym]) {
-            stack.push(point[objSym]);
-        }
-
-        function reduceObjToArr(o, trace) {
-            for(var k in o) {
-                if(o[k][objSym]) {
-                    stack.push(o[k][objSym]);
-                    // stack.push(trace + k);
-                }
-                reduceObjToArr(o[k], trace + k);
-            }
-        }
-
-        reduceObjToArr(point, '');
-
-        return stack;
+    // We can check if we've completed a word in constant time
+    if (point[objSym]) {
+      stack.push(point[objSym]);
     }
+
+    function reduceObjToArr(o, trace) {
+      for (var k in o) {
+        if (o[k][objSym]) {
+          stack.push(o[k][objSym]);
+          // stack.push(trace + k);
+        }
+        reduceObjToArr(o[k], trace + k);
+      }
+    }
+
+    reduceObjToArr(point, '');
+
+    return stack;
+  }
 };
 
 var TrieDesc = {
-    tree:{
-        value:{},
-        enumerable:true,
-    }
+  tree: {
+    value: {},
+    enumerable: true
+  }
 };
 
-function createTrie(){
-    return Object.create(TrieProto,TrieDesc);
+function createTrie() {
+  return Object.create(TrieProto, TrieDesc);
 }
-
